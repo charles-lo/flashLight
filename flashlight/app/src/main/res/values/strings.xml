@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">flashlight</string>
+    <string name="on">flashlight on</string>
+    <string name="off">flashlight off</string>
+    <string name="lock_screen">screen will always on</string>
+    <string name="unlock_screen">screen will off</string>
+</resources>
