@@ -3,5 +3,5 @@
     <string name="on">flashlight on</string>
     <string name="off">flashlight off</string>
     <string name="lock_screen">screen will always on</string>
-    <string name="unlock_screen">screen will off</string>
+    <string name="unlock_screen">screen will resume original setting</string>
 </resources>

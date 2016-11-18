@@ -11,6 +11,11 @@ import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+
+import com.vpadn.ads.VpadnAdRequest;
+import com.vpadn.ads.VpadnAdSize;
+import com.vpadn.ads.VpadnBanner;
 
 public class MainActivity extends Activity {
 
@@ -19,6 +24,9 @@ public class MainActivity extends Activity {
     private Boolean mIsTorchOn = true, mIsScreenOn = true;
     private Button mScreenLock;
     private int mBrightnessLevel, mBrightSetting;
+
+    private VpadnBanner mVponBanner = null;
+    private String bannerId = "8a808182586669e201586c92f8fa07d5";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +94,18 @@ public class MainActivity extends Activity {
 
             }
         });
+
+
+        //create VpadnBanner instance
+        RelativeLayout adBannerLayout = (RelativeLayout) findViewById(R.id.activity_main);
+        mVponBanner = new VpadnBanner(this, bannerId, VpadnAdSize.SMART_BANNER, "TW");
+        VpadnAdRequest adRequest = new VpadnAdRequest();
+        //set auto refresh to get banner
+        adRequest.setEnableAutoRefresh(true);
+        //load vpon banner
+        mVponBanner.loadAd(adRequest);
+        //add vpon banner to your layout view
+        adBannerLayout.addView(mVponBanner);
     }
 
     @Override
@@ -97,6 +117,16 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mVponBanner != null) {
+            //remember to call destroy method
+            mVponBanner.destroy();
+            mVponBanner = null;
+        }
     }
 
     @Override
