@@ -1,6 +1,9 @@
 # flashLight
 a flashlight cost very low power
 
+20161118-01
+1. change license key
+
 20161118
 1. add vpon sdk
 2. rename

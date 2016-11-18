@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
     private int mBrightnessLevel, mBrightSetting;
 
     private VpadnBanner mVponBanner = null;
-    private String bannerId = "8a808182586669e201586c92f8fa07d5";
+    private String bannerId = "8a808182586669e201587536217a0f1e";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
