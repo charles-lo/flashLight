@@ -13,9 +13,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.vpadn.ads.VpadnAd;
+import com.vpadn.ads.VpadnAdListener;
 import com.vpadn.ads.VpadnAdRequest;
 import com.vpadn.ads.VpadnAdSize;
 import com.vpadn.ads.VpadnBanner;
+import com.vpadn.ads.VpadnInterstitialAd;
 
 public class MainActivity extends Activity {
 
@@ -27,6 +30,9 @@ public class MainActivity extends Activity {
 
     private VpadnBanner mVponBanner = null;
     private String bannerId = "8a808182586669e201587536217a0f1e";
+    private String interstitialBannerId = "8a808182588f83d10158ce39d26e47ab";
+    private VpadnInterstitialAd mInterstitialAd;
+    boolean mIsCanWrite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +46,8 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-        boolean isCanWrite = Settings.System.canWrite(MainActivity.this);
-        if (!isCanWrite) {
+        mIsCanWrite = Settings.System.canWrite(MainActivity.this);
+        if (!mIsCanWrite) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
             Uri uri = Uri.fromParts("package", this.getPackageName(), null);
             intent.setData(uri);
@@ -57,6 +63,7 @@ public class MainActivity extends Activity {
 
         final Button toggle = (Button) findViewById(R.id.toggle);
         mScreenLock = (Button) findViewById(R.id.screen_lock);
+        Button advertisement  = (Button) findViewById(R.id.advertisement);
 
         toggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +102,17 @@ public class MainActivity extends Activity {
             }
         });
 
+        advertisement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mInterstitialAd.isReady()) {
+                    mInterstitialAd.show();
+                } else {
+                }
+
+            }
+        });
+
 
         //create VpadnBanner instance
         RelativeLayout adBannerLayout = (RelativeLayout) findViewById(R.id.activity_main);
@@ -106,6 +124,39 @@ public class MainActivity extends Activity {
         mVponBanner.loadAd(adRequest);
         //add vpon banner to your layout view
         adBannerLayout.addView(mVponBanner);
+
+        mInterstitialAd = new VpadnInterstitialAd(MainActivity.this, interstitialBannerId, "TW");
+        //Add listener
+        mInterstitialAd.setAdListener(new VpadnAdListener() {
+            @Override
+            public void onVpadnReceiveAd(VpadnAd vpadnAd) {
+
+            }
+
+            @Override
+            public void onVpadnFailedToReceiveAd(VpadnAd vpadnAd, VpadnAdRequest.VpadnErrorCode vpadnErrorCode) {
+
+            }
+
+            @Override
+            public void onVpadnPresentScreen(VpadnAd vpadnAd) {
+
+            }
+
+            @Override
+            public void onVpadnDismissScreen(VpadnAd vpadnAd) {
+
+            }
+
+            @Override
+            public void onVpadnLeaveApplication(VpadnAd vpadnAd) {
+
+            }
+        });
+        // Create ad request
+        VpadnAdRequest request = new VpadnAdRequest();
+        //Begin loading your interstitial
+        mInterstitialAd.loadAd(request);
     }
 
     @Override
@@ -126,6 +177,10 @@ public class MainActivity extends Activity {
             //remember to call destroy method
             mVponBanner.destroy();
             mVponBanner = null;
+        }
+        if (mInterstitialAd != null) {
+            mInterstitialAd.destroy();
+            mInterstitialAd = null;
         }
     }
 
@@ -151,12 +206,18 @@ public class MainActivity extends Activity {
 
     private void torchOn() throws CameraAccessException {
         mCameraManager.setTorchMode(mCameraId, true);
+        if (!mIsCanWrite) {
+            return;
+        }
         Settings.System.putInt(MainActivity.this.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
         Settings.System.putInt(MainActivity.this.getContentResolver(),Settings.System.SCREEN_BRIGHTNESS, 10);
     }
 
     private void torchOff() throws CameraAccessException {
         mCameraManager.setTorchMode(mCameraId, false);
+        if (!mIsCanWrite) {
+            return;
+        }
         Settings.System.putInt(MainActivity.this.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, mBrightSetting);
         Settings.System.putInt(MainActivity.this.getContentResolver(),Settings.System.SCREEN_BRIGHTNESS, mBrightnessLevel);
     }

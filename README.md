@@ -1,6 +1,9 @@
 # flashLight
 a flashlight cost very low power
 
+20161205
+1. fix crash issue
+
 20161118-01
 1. change license key
 

@@ -27,9 +27,16 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/toggle"
-            android:layout_centerInParent="true"
             android:text="@string/lock_screen" />
         >
     </RelativeLayout>
+    <Button
+        android:id="@+id/advertisement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:text="@string/advertisement" />
     >
 </RelativeLayout>

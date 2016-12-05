@@ -7,8 +7,8 @@ android {
         applicationId "com.charleslab.flashlight"
         minSdkVersion 23
         targetSdkVersion 25
-        versionCode 3
-        versionName "1.0.003"
+        versionCode 4
+        versionName "1.0.004"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
